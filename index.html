@@ -106,6 +106,91 @@
 #reserve .form-row {
   gap: 10px;
 }
+/* ────────────────────────────────
+   🌌 전체 Glassmorphism 통일 테마
+──────────────────────────────── */
+
+/* 전체 배경 약간 더 깊은 톤으로 */
+body {
+  background: radial-gradient(circle at 20% 10%, #0b1330 0%, #060b1f 70%, #040816 100%);
+  color: #e8ecff;
+}
+
+/* 카드 공통 스타일 (Glass 효과) */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f2f6ff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px 24px;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+/* 카드 내부 텍스트 톤 조정 */
+.card b { color: #ffffff; }
+.card span { color: #cfd7ff; }
+
+/* 예약하기 카드도 같은 톤으로 통일 */
+#reserve .card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* 버튼도 Glass 스타일 */
+.btn {
+  background: rgba(21, 220, 246, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+.btn:hover {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #0a1128;
+  transform: translateY(-1px);
+}
+
+/* Ghost 버튼 */
+.btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* 입력 폼 Glass 톤 조정 */
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+input::placeholder,
+select,
+textarea::placeholder { color: #cbd5f3; }
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* 예약 카드 폭 및 정렬 */
+#reserve .card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* 섹션 간 구분선 은은하게 */
+.section {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
 
     
   </style>
