@@ -380,6 +380,87 @@ input:focus, select:focus, textarea:focus {
 }
 
     
+/* ===== 공통 컨테이너 반응형 (모바일 100% ~ 데스크탑 1100px) ===== */
+.wrap {
+  max-width: clamp(320px, 92vw, 1100px);
+  padding-left: clamp(16px, 4vw, 40px);
+  padding-right: clamp(16px, 4vw, 40px);
+}
+
+/* ===== 카드 폭 통합 (두 섹션 모두 동일) ===== */
+#reserve .wrap,
+#about  .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 가운데 정렬 */
+  text-align: left;
+}
+
+#reserve .card,
+#about  .card {
+  width: 100%;                 /* 모바일: 꽉 채움 */
+  max-width: 720px;            /* 데스크탑: 동일한 최대폭 */
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 20px 24px;
+}
+
+/* 소개 카드(행사소개 kvs)도 예약 카드와 같은 폭으로 */
+#reserve .kvs { width: 100%; max-width: 720px; }
+
+/* ===== 폼 레이아웃 반응형 ===== */
+/* 기본: 모바일 1열 */
+#reserve .form-row,
+#reserve .form-row-1 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 10px; 
+}
+
+/* 태블릿 이상: 2열로 컴팩트하게 */
+@media (min-width: 768px) {
+  #reserve .form-row { grid-template-columns: 1fr 1fr; }
+  #reserve .form-row-1 { grid-template-columns: 1fr; }
+}
+
+/* 입력/선택 필드 크기/스타일 통일 (모바일~데스크탑 동일) */
+#reserve input,
+#reserve select,
+#reserve textarea {
+  width: 100%;
+  height: 48px;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  box-sizing: border-box;
+}
+#reserve textarea { height: auto; min-height: 96px; }
+
+/* 드롭다운(시간/학교급) 연한 회색 톤 유지 */
+#reserve select#slot,
+#reserve select#school_level {
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+#reserve select,
+#reserve select option { color:#fff; background: rgba(15,24,61,0.95); }
+
+/* 포커스/호버 접근성 */
+#reserve input:focus,
+#reserve select:focus,
+#reserve textarea:focus {
+  border-color: rgba(255,255,255,0.5);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
+}
+#reserve select#slot:hover,
+#reserve select#school_level:hover { background: rgba(255,255,255,0.35); }
+
+/* 제목과 카드 사이 여백 정리 (모바일~데스크탑 균형) */
+#reserve h2, #about h2 { margin-top: 8px; margin-bottom: 12px; }
+#reserve .card + h2 { margin-top: 32px; }
 
 
 
