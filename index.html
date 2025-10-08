@@ -7,153 +7,24 @@
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f4f7f6;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; margin: 0; background-color: #f4f7f6;
     }
     .container {
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 480px;
-      text-align: center;
+      background-color: #ffffff; padding: 40px; border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 480px; text-align: center;
     }
-    h1 {
-      color: #333;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #666;
-      margin-bottom: 24px;
-    }
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #555;
-      font-weight: 600;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 16px;
-      background: #fff;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 84px;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #message {
-      margin-top: 16px;
-      font-weight: 700;
-      color: #0a8f3c;
-      display: none;
-    }
-    .fine-print {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #888;
-    }
+    h1 { color: #333; margin-bottom: 10px; }
+    p { color: #666; margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; text-align: left; }
+    label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
+    button { width: 100%; padding: 14px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color .3s; }
+    button:hover { background-color: #0056b3; }
+    #message { margin-top: 16px; font-weight: 700; color: #0a8f3c; display: none; }
   </style>
 </head>
-<script>
-(async function () {
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR-3NyxcSuT4ae-vKID-puCXh81IXh53lhbiYfifAe3mphkeOJ6XlZ6GF1sLr2K6oXfC0suC4HujR2m/pub?gid=1837035928&single=true&output=csv"; // 예: https://docs.google.com/spreadsheets/d/.../pub?output=csv
-  const MAX_PER_SLOT = 10;
-  const slotSelect = document.getElementById('slot');
-  if (!slotSelect) return;
-
-  // CSV 파서(아주 단순한 쉼표 구분; 값에 쉼표가 없다 가정)
-  function parseCSV(text) {
-    return text.trim().split(/\r?\n/).map(line => line.split(',').map(s => s.trim()));
-  }
-
-  // 현재 옵션을 “마감/활성” 상태로 표시
-  function applyCounts(countMap) {
-    [...slotSelect.options].forEach(opt => {
-      if (!opt.value) return; // "시간 선택" 제외
-      const time = opt.textContent.trim();
-      const cnt = Number(countMap.get(time) || 0);
-      if (cnt >= MAX_PER_SLOT) {
-        opt.disabled = true;
-        if (!/마감/.test(opt.textContent)) opt.textContent = `${time} (마감)`;
-      } else {
-        opt.disabled = false;
-        opt.textContent = time.replace(/\s*\(마감\)\s*$/, '');
-      }
-    });
-
-    // 선택된 값이 비활성화로 바뀌었을 때 초기화
-    if (slotSelect.selectedOptions[0]?.disabled) {
-      slotSelect.value = '';
-    }
-  }
-
-  async function refresh() {
-    try {
-      const res = await fetch(CSV_URL + '&_=' + Date.now()); // 캐시 방지
-      if (!res.ok) throw new Error('CSV fetch failed');
-      const text = await res.text();
-      const rows = parseCSV(text);
-
-      // 헤더: ["예약 시간","인원수"] 라고 가정
-      const [header, ...data] = rows;
-      const timeIdx = header.findIndex(h => /예약\s*시간/.test(h));
-      const countIdx = header.findIndex(h => /인원/.test(h));
-      if (timeIdx === -1 || countIdx === -1) return;
-
-      const countMap = new Map();
-      for (const r of data) {
-        const t = (r[timeIdx] || '').trim();
-        const c = Number((r[countIdx] || '0').trim());
-        if (!t) continue;
-        countMap.set(t, c);
-      }
-      applyCounts(countMap);
-    } catch (err) {
-      console.error('예약 집계 불러오기 실패:', err);
-      // 실패 시 아무 것도 비활성화하지 않음 (기본 동작 유지)
-    }
-  }
-
-  await refresh();
-  // 운영 중 주기적으로 새로고침(예: 60초)
-  setInterval(refresh, 60 * 1000);
-})();
-</script> 
 <body>
-  <iframe
-    name="hidden_iframe"
-    style="display:none;"
-    onload="if(window._submitted){document.getElementById('message').style.display='block';}"
-  ></iframe>
-
   <div class="container">
     <h1>행사 예약</h1>
     <p>2025년 10월 18일</p>
@@ -214,14 +85,49 @@
         <input type="text" id="interest" name="entry.763983283" placeholder="예) AI, 게임, 로봇 등" />
       </div>
 
-      <!-- 스팸 방지용 허니팟 -->
-      <input type="text" name="entry.999999999" tabindex="-1" autocomplete="off" style="display:none" />
-
       <button type="submit">예약하기</button>
     </form>
 
     <div id="message" aria-live="polite">✅ 예약이 완료되었습니다! 담당자가 확인 후 연락드립니다.</div>
-    <div class="fine-print">※ 동일 시간 중복 예약은 자동으로 거절됩니다.</div>
   </div>
+
+  <iframe name="hidden_iframe" style="display:none;" onload="if(window._submitted){document.getElementById('message').style.display='block';}"></iframe>
+
+  <script>
+  // CSV를 불러와 인원수 >=10인 시간대는 비활성화
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR-3NyxcSuT4ae-vKID-puCXh81IXh53lhbiYfifAe3mphkeOJ6XlZ6GF1sLr2K6oXfC0suC4HujR2m/pub?gid=1837035928&single=true&output=csv"; // 업로드된 CSV의 공개 URL
+  const MAX_PEOPLE = 10;
+
+  async function updateSlots() {
+    try {
+      const res = await fetch(CSV_URL + "?t=" + Date.now());
+      const text = await res.text();
+      const lines = text.trim().split(/\r?\n/);
+      const data = lines.slice(1).map(line => line.split(','));
+      const map = new Map();
+      for (const [time, count] of data) {
+        map.set(time.trim(), parseInt(count.trim()));
+      }
+
+      const select = document.getElementById("slot");
+      for (const opt of select.options) {
+        if (!opt.value) continue;
+        const count = map.get(opt.value.trim()) || 0;
+        if (count >= MAX_PEOPLE) {
+          opt.disabled = true;
+          opt.textContent = `${opt.value} (마감)`;
+        } else {
+          opt.disabled = false;
+          opt.textContent = opt.value;
+        }
+      }
+    } catch (err) {
+      console.error("CSV 불러오기 실패:", err);
+    }
+  }
+
+  updateSlots();
+  setInterval(updateSlots, 60000); // 1분마다 갱신
+  </script>
 </body>
 </html>
