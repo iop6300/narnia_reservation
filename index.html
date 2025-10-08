@@ -82,6 +82,71 @@
     }
   </style>
 </head>
+<script>
+(async function () {
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR-3NyxcSuT4ae-vKID-puCXh81IXh53lhbiYfifAe3mphkeOJ6XlZ6GF1sLr2K6oXfC0suC4HujR2m/pub?gid=1837035928&single=true&output=csv"; // 예: https://docs.google.com/spreadsheets/d/.../pub?output=csv
+  const MAX_PER_SLOT = 10;
+  const slotSelect = document.getElementById('slot');
+  if (!slotSelect) return;
+
+  // CSV 파서(아주 단순한 쉼표 구분; 값에 쉼표가 없다 가정)
+  function parseCSV(text) {
+    return text.trim().split(/\r?\n/).map(line => line.split(',').map(s => s.trim()));
+  }
+
+  // 현재 옵션을 “마감/활성” 상태로 표시
+  function applyCounts(countMap) {
+    [...slotSelect.options].forEach(opt => {
+      if (!opt.value) return; // "시간 선택" 제외
+      const time = opt.textContent.trim();
+      const cnt = Number(countMap.get(time) || 0);
+      if (cnt >= MAX_PER_SLOT) {
+        opt.disabled = true;
+        if (!/마감/.test(opt.textContent)) opt.textContent = `${time} (마감)`;
+      } else {
+        opt.disabled = false;
+        opt.textContent = time.replace(/\s*\(마감\)\s*$/, '');
+      }
+    });
+
+    // 선택된 값이 비활성화로 바뀌었을 때 초기화
+    if (slotSelect.selectedOptions[0]?.disabled) {
+      slotSelect.value = '';
+    }
+  }
+
+  async function refresh() {
+    try {
+      const res = await fetch(CSV_URL + '&_=' + Date.now()); // 캐시 방지
+      if (!res.ok) throw new Error('CSV fetch failed');
+      const text = await res.text();
+      const rows = parseCSV(text);
+
+      // 헤더: ["예약 시간","인원수"] 라고 가정
+      const [header, ...data] = rows;
+      const timeIdx = header.findIndex(h => /예약\s*시간/.test(h));
+      const countIdx = header.findIndex(h => /인원/.test(h));
+      if (timeIdx === -1 || countIdx === -1) return;
+
+      const countMap = new Map();
+      for (const r of data) {
+        const t = (r[timeIdx] || '').trim();
+        const c = Number((r[countIdx] || '0').trim());
+        if (!t) continue;
+        countMap.set(t, c);
+      }
+      applyCounts(countMap);
+    } catch (err) {
+      console.error('예약 집계 불러오기 실패:', err);
+      // 실패 시 아무 것도 비활성화하지 않음 (기본 동작 유지)
+    }
+  }
+
+  await refresh();
+  // 운영 중 주기적으로 새로고침(예: 60초)
+  setInterval(refresh, 60 * 1000);
+})();
+</script> 
 <body>
   <iframe
     name="hidden_iframe"
