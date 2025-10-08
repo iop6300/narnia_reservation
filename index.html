@@ -338,7 +338,48 @@ input:focus, select:focus, textarea:focus {
 }
 
 
+/* 예약 시간, 학교급 드롭다운 배경을 연한 회색으로 */
+#reserve select#slot,
+#reserve select#school_level {
+  background: rgba(255, 255, 255, 0.25); /* 연한 회색 느낌 */
+  color: #fff;                           /* 글자는 흰색 유지 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.2s ease;
+}
 
+/* hover 시 살짝 더 밝게 */
+#reserve select#slot:hover,
+#reserve select#school_level:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* focus 시 살짝 강조 */
+#reserve select#slot:focus,
+#reserve select#school_level:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+
+/* 예약 카드와 소개 카드의 폭을 동일하게 통일 */
+#reserve .card,
+#about .card {
+  max-width: 720px;     /* 동일한 너비 */
+  margin: 0 auto;       /* 중앙 정렬 */
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+
+/* 섹션 내부 정렬도 동일하게 유지 */
+#reserve .wrap,
+#about .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+
+    
 
 
 
