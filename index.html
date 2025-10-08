@@ -6,463 +6,152 @@
   <title>나니아랩 체험 예약</title>
   <meta name="description" content="나니아랩 행사 예약 페이지" />
   <style>
-    :root {
-      --primary:#15dcf6; --accent:#f42bce; --text:#0a1128; --muted:#667085;
-      --bg:#0a1128; --card:#ffffff; --cardText:#222; --btn:#0a84ff; --btnHover:#0056b3;
-    }
-    * { box-sizing:border-box; }
-    html,body { margin:0; padding:0; scroll-behavior:smooth; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; color:var(--cardText); background:var(--bg); }
-    a { color:inherit; text-decoration:none; }
-    .wrap { max-width:900px; margin:0 auto; padding:0 20px; }
-
-    /* Hero with particles */
-    .hero {
-      position:relative; min-height:68vh; display:flex; align-items:center; overflow:hidden;
-      color:#fff; background: radial-gradient(1200px 600px at 20% 10%, #111b3a 0%, #0a1128 60%, #071024 100%);
-    }
-    #particles { position:absolute; inset:0; }
-    .hero__inner { position:relative; z-index:1; padding:80px 0; }
-    .badge { display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; letter-spacing:.08em; background:rgba(255,255,255,.12); backdrop-filter: blur(6px);}
-    .title {
-      font-weight:800; line-height:1.05; margin:14px 0 12px;
-      font-size: clamp(32px, 5vw, 56px);
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-    }
-    .subtitle { color:#c9d1ff; max-width:720px; font-size: clamp(15px, 2.2vw, 18px); }
-    .cta { display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
-    .btn {
-      padding:12px 16px; border-radius:12px; font-weight:700; border:1px solid rgba(255,255,255,.2); color:#fff;
-      background:linear-gradient(90deg,var(--primary),var(--accent));
-    }
-    .btn--ghost{ background:transparent; }
-    .hero__meta { margin-top:16px; font-size:14px; color:#c9d1ff; }
-
-    /* Sections */
-    section { background:#0c1332; color:#e6ebff; }
-    .section { padding:56px 0; border-top:1px solid rgba(255,255,255,.06); }
-    h2 { margin:0 0 18px; font-size: clamp(22px, 3vw, 28px); color:#fff; }
-    .muted { color:#9fb0ff; }
-
-    /* Cards */
-    .grid { display:grid; gap:18px; grid-template-columns: repeat(12,1fr); }
-    .col-4 { grid-column: span 4; }
-    .col-6 { grid-column: span 6; }
-    .col-12 { grid-column: span 12; }
-    @media (max-width: 900px) {
-      .col-4, .col-6 { grid-column: span 12; }
-    }
-
-    .card {
-      background:var(--card); color:var(--cardText);
-      border-radius:16px; padding:22px; box-shadow:0 8px 28px rgba(0,0,0,.22);
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .kvs { display:grid; gap:10px; }
-    .kv { display:flex; gap:10px; }
-    .kv b{ min-width:84px; }
-
-    /* Form */
-    .form-row { display:grid; gap:14px; grid-template-columns:1fr 1fr; }
-    .form-row-1 { grid-template-columns:1fr; }
-    label { font-weight:700; font-size:14px; color:#374151; display:block; margin:2px 0 6px; }
-    input, select, textarea {
-      width:100%; padding:12px; border:1px solid #e5e7eb; border-radius:10px; font-size:16px; outline:none;
-      background:#fff;
-    }
-    input:focus, select:focus, textarea:focus { border-color:#cbd5e1; box-shadow:0 0 0 3px rgba(37,99,235,.12); }
-    .submit { width:100%; padding:14px; border:0; border-radius:12px; background:var(--btn); color:#fff; font-size:16px; font-weight:800; cursor:pointer; }
-    .submit:hover { background:var(--btnHover); }
-    .note { font-size:12px; color:#6b7280; margin-top:8px; }
-    .success { display:none; margin-top:10px; color:#0a8f3c; font-weight:800; }
-
-    footer { color:#9fb0ff; text-align:center; padding:26px 0; border-top:1px solid rgba(255,255,255,.06); }
-
-.social { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
-.social a {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:10px 14px; border-radius:12px; font-weight:700;
-  background:#111a3a; color:#e6ebff; border:1px solid rgba(255,255,255,.08);
-}
-.social a:hover { background:#1a2454; }
-.social svg { width:18px; height:18px; }
-
-/* 페이지 전체 좌우 여백 넓히기 */
-.wrap {
-  max-width: 1100px; /* 기존 900px → 1100px */
-  padding: 0 40px;   /* 기존 20px → 40px */
+:root{
+  --primary:#15dcf6; --accent:#f42bce; --text:#0a1128; --muted:#667085;
+  --bg:#0a1128; --cardText:#e8ecff; --btn:#0a84ff; --btnHover:#0056b3;
 }
 
-/* 예약하기 카드 폭 줄이기 */
-#reserve .card {
-  max-width: 700px;      /* 카드 최대 너비 제한 */
-  margin: 0 auto;        /* 가운데 정렬 */
-  padding: 20px 24px;    /* 여백 살짝 줄이기 */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+/* ========== Base ========== */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  color:var(--cardText);
+  background:radial-gradient(circle at 20% 10%, #0b1330 0%, #060b1f 70%, #040816 100%);
+}
+a{color:inherit;text-decoration:none}
+
+/* 공통 컨테이너: 모바일 100% ~ 데스크탑 1100px */
+.wrap{
+  max-width:clamp(320px,92vw,1100px);
+  margin:0 auto;
+  padding-left:clamp(16px,4vw,40px);
+  padding-right:clamp(16px,4vw,40px);
 }
 
-/* 예약 폼 입력칸 간격도 약간 줄이기 */
-#reserve .form-row {
-  gap: 10px;
+/* ========== Hero ========== */
+.hero{
+  position:relative;min-height:68vh;display:flex;align-items:center;overflow:hidden;
+  color:#fff;background:radial-gradient(1200px 600px at 20% 10%, #111b3a 0%, #0a1128 60%, #071024 100%);
 }
-/* ────────────────────────────────
-   🌌 전체 Glassmorphism 통일 테마
-──────────────────────────────── */
+#particles{position:absolute;inset:0}
+.hero__inner{position:relative;z-index:1;padding:80px 0}
+.badge{
+  display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.08em;
+  background:rgba(255,255,255,.12);backdrop-filter:blur(6px)
+}
+.title{
+  font-weight:800;line-height:1.05;margin:14px 0 12px;
+  font-size:clamp(32px,5vw,56px);
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.subtitle{color:#c9d1ff;max-width:720px;font-size:clamp(15px,2.2vw,18px)}
+.cta{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.hero__meta{margin-top:16px;font-size:14px;color:#c9d1ff}
 
-/* 전체 배경 약간 더 깊은 톤으로 */
-body {
-  background: radial-gradient(circle at 20% 10%, #0b1330 0%, #060b1f 70%, #040816 100%);
-  color: #e8ecff;
+/* 버튼 (Glass) */
+.btn{
+  padding:12px 16px;border-radius:12px;font-weight:700;
+  background:rgba(21,220,246,.15);color:#fff;border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(6px);transition:all .25s ease
 }
+.btn:hover{background:linear-gradient(90deg,var(--primary),var(--accent));color:#0a1128;transform:translateY(-1px)}
+.btn--ghost{background:transparent;border:1px solid rgba(255,255,255,.3)}
+.btn--ghost:hover{background:rgba(255,255,255,.15)}
 
-/* 카드 공통 스타일 (Glass 효과) */
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f2f6ff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 20px 24px;
-  transition: all 0.3s ease;
-}
-.card:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
-}
+/* ========== Sections ========== */
+section{background:#0c1332;color:#e6ebff}
+.section{padding:56px 0;border-top:1px solid rgba(255,255,255,.08)}
+h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
+.muted{color:#9fb0ff}
 
-/* 카드 내부 텍스트 톤 조정 */
-.card b { color: #ffffff; }
-.card span { color: #cfd7ff; }
+/* ========== Grid (option) ========== */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(12,1fr)}
+.col-4{grid-column:span 4}.col-6{grid-column:span 6}.col-12{grid-column:span 12}
+@media (max-width:900px){.col-4,.col-6{grid-column:span 12}}
 
-/* 예약하기 카드도 같은 톤으로 통일 */
-#reserve .card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+/* ========== Card (Glass) ========== */
+.card{
+  background:rgba(255,255,255,.08);color:#f2f6ff;border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.35);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);padding:20px 24px;transition:all .3s ease
 }
+.card:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.card b{color:#fff}.card span{color:#cfd7ff}
 
-/* 버튼도 Glass 스타일 */
-.btn {
-  background: rgba(21, 220, 246, 0.15);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(6px);
-  border-radius: 12px;
-  transition: all 0.25s ease;
+/* ========== Social Links ========== */
+.social{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+.social a{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 14px;border-radius:12px;font-weight:700;
+  background:#111a3a;color:#e6ebff;border:1px solid rgba(255,255,255,.08)
 }
-.btn:hover {
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  color: #0a1128;
-  transform: translateY(-1px);
-}
+.social a:hover{background:#1a2454}
+.social svg{width:18px;height:18px}
 
-/* Ghost 버튼 */
-.btn--ghost {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+/* ========== Reserve / About 정렬 & 카드 폭 통일 ========== */
+#reserve .wrap,#about .wrap{
+  display:flex;flex-direction:column;align-items:center;text-align:left
 }
-.btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
+#reserve .card,#about .card{width:100%;max-width:720px;margin:0 auto;box-sizing:border-box}
 
-/* 입력 폼 Glass 톤 조정 */
-input, select, textarea {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-input::placeholder,
-select,
-textarea::placeholder { color: #cbd5f3; }
-input:focus, select:focus, textarea:focus {
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-}
+/* 행사소개 key-values 카드도 동일 폭 */
+.kvs{display:grid;gap:10px;width:100%;max-width:720px}
+.kv{display:flex;gap:10px}.kv b{min-width:84px}
 
-/* 예약 카드 폭 및 정렬 */
-#reserve .card {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-/* 섹션 간 구분선 은은하게 */
-.section {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-/* ────────────────────────────────
-   🌌 전체 Glassmorphism 통일 테마
-──────────────────────────────── */
-
-/* 전체 배경 약간 더 깊은 톤으로 */
-body {
-  background: radial-gradient(circle at 20% 10%, #0b1330 0%, #060b1f 70%, #040816 100%);
-  color: #e8ecff;
-}
-
-/* 카드 공통 스타일 (Glass 효과) */
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f2f6ff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 20px 24px;
-  transition: all 0.3s ease;
-}
-.card:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
-}
-
-/* 카드 내부 텍스트 톤 조정 */
-.card b { color: #ffffff; }
-.card span { color: #cfd7ff; }
-
-/* 예약하기 카드도 같은 톤으로 통일 */
-#reserve .card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-/* 버튼도 Glass 스타일 */
-.btn {
-  background: rgba(21, 220, 246, 0.15);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(6px);
-  border-radius: 12px;
-  transition: all 0.25s ease;
-}
-.btn:hover {
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  color: #0a1128;
-  transform: translateY(-1px);
-}
-
-/* Ghost 버튼 */
-.btn--ghost {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-.btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* 입력 폼 Glass 톤 조정 */
-input, select, textarea {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-input::placeholder,
-select,
-textarea::placeholder { color: #cbd5f3; }
-input:focus, select:focus, textarea:focus {
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-}
-
-/* 예약 카드 폭 및 정렬 */
-#reserve .card {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-/* 섹션 간 구분선 은은하게 */
-.section {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-#reserve .wrap { display:flex; flex-direction:column; align-items:center; }
-#reserve .card { width:100%; max-width:720px; margin:0 auto; }
-#reserve .kvs  { width:100%; max-width:720px; } /* 소개 카드도 같은 폭 */
-  /* 라벨(필드명) 흰색 */
+/* ========== Form (통일/반응형) ========== */
+/* 라벨 흰색 */
 #reserve label[for="student_name"],
 #reserve label[for="parent_phone"],
 #reserve label[for="slot"],
 #reserve label[for="school_level"],
 #reserve label[for="grade"],
-#reserve label[for="interest"] {
-  color: #fff;
+#reserve label[for="interest"]{color:#fff;font-weight:700;font-size:14px;margin:2px 0 6px;display:block}
+
+/* 한 줄/두 줄 레이아웃 */
+#reserve .form-row,#reserve .form-row-1{display:grid;gap:10px}
+#reserve .form-row{grid-template-columns:1fr}
+#reserve .form-row-1{grid-template-columns:1fr}
+@media (min-width:768px){
+  #reserve .form-row{grid-template-columns:1fr 1fr}
 }
 
-/* 입력/선택 글자 흰색 + placeholder도 밝게 */
-#reserve input,
-#reserve select,
-#reserve textarea {
-  color: #fff;
+/* 입력/선택 필드 통일 */
+#reserve input,#reserve select,#reserve textarea{
+  width:100%;height:48px;padding:12px 14px;font-size:16px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.12);color:#fff;box-sizing:border-box
 }
-#reserve input::placeholder,
-#reserve textarea::placeholder {
-  color: rgba(255,255,255,0.8);
-}
+#reserve textarea{height:auto;min-height:96px}
 
-/* 드롭다운(옵션)도 흰색 텍스트 */
-#reserve select, 
-#reserve select option {
-  color: #fff;
-  background: rgba(15, 24, 61, 0.9); /* 드롭다운 배경 어둡게(가독성) */
-}
+/* placeholder 색 */
+#reserve input::placeholder,#reserve textarea::placeholder{color:rgba(255,255,255,.8)}
 
-/* 접근성: 포커스 테두리 좀 더 밝게 */
-#reserve input:focus,
-#reserve select:focus,
-#reserve textarea:focus {
-  border-color: rgba(255,255,255,0.6);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
+/* 셀렉트 드롭다운 기본 */
+#reserve select,#reserve select option{color:#fff;background:rgba(15,24,61,.95)}
+
+/* “예약 시간/학교급”만 연한 회색 톤 */
+#reserve select#slot,#reserve select#school_level{
+  background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.3);transition:background .2s ease
+}
+#reserve select#slot:hover,#reserve select#school_level:hover{background:rgba(255,255,255,.35)}
+
+/* Focus 접근성 */
+#reserve input:focus,#reserve select:focus,#reserve textarea:focus{
+  border-color:rgba(255,255,255,.5);box-shadow:0 0 0 2px rgba(255,255,255,.25);outline:none
 }
 
-/* placeholder와 select 옵션 색상 조정 */
-#reserve input::placeholder {
-  color: rgba(255,255,255,0.8);
+/* 제출 버튼 */
+.submit{
+  width:100%;padding:14px;border:0;border-radius:12px;background:var(--btn);color:#fff;
+  font-size:16px;font-weight:800;cursor:pointer;transition:background .25s ease
 }
-#reserve select,
-#reserve select option {
-  color: #fff;
-  background: rgba(15, 24, 61, 0.95);
-}
+.submit:hover{background:var(--btnHover)}
+.note{font-size:12px;color:#cbd5f3;margin-top:8px}
+.success{display:none;margin-top:10px;color:#0aef8b;font-weight:800}
 
-/* focus 시 효과 */
-#reserve input:focus,
-#reserve select:focus {
-  border-color: rgba(255,255,255,0.5);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
-}
-/* 예약 섹션 제목 및 내용 왼쪽 정렬 */
-#reserve .wrap {
-  align-items: flex-start; /* 중앙(center) → 왼쪽(flex-start) */
-  text-align: left;
-}
-
-
-/* 예약 시간, 학교급 드롭다운 배경을 연한 회색으로 */
-#reserve select#slot,
-#reserve select#school_level {
-  background: rgba(255, 255, 255, 0.25); /* 연한 회색 느낌 */
-  color: #fff;                           /* 글자는 흰색 유지 */
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: background 0.2s ease;
-}
-
-/* hover 시 살짝 더 밝게 */
-#reserve select#slot:hover,
-#reserve select#school_level:hover {
-  background: rgba(255, 255, 255, 0.35);
-}
-
-/* focus 시 살짝 강조 */
-#reserve select#slot:focus,
-#reserve select#school_level:focus {
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
-}
-
-
-/* 예약 카드와 소개 카드의 폭을 동일하게 통일 */
-#reserve .card,
-#about .card {
-  max-width: 720px;     /* 동일한 너비 */
-  margin: 0 auto;       /* 중앙 정렬 */
-  padding: 20px 24px;
-  box-sizing: border-box;
-}
-
-/* 섹션 내부 정렬도 동일하게 유지 */
-#reserve .wrap,
-#about .wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-}
-
-    
-/* ===== 공통 컨테이너 반응형 (모바일 100% ~ 데스크탑 1100px) ===== */
-.wrap {
-  max-width: clamp(320px, 92vw, 1100px);
-  padding-left: clamp(16px, 4vw, 40px);
-  padding-right: clamp(16px, 4vw, 40px);
-}
-
-/* ===== 카드 폭 통합 (두 섹션 모두 동일) ===== */
-#reserve .wrap,
-#about  .wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* 가운데 정렬 */
-  text-align: left;
-}
-
-#reserve .card,
-#about  .card {
-  width: 100%;                 /* 모바일: 꽉 채움 */
-  max-width: 720px;            /* 데스크탑: 동일한 최대폭 */
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 20px 24px;
-}
-
-/* 소개 카드(행사소개 kvs)도 예약 카드와 같은 폭으로 */
-#reserve .kvs { width: 100%; max-width: 720px; }
-
-/* ===== 폼 레이아웃 반응형 ===== */
-/* 기본: 모바일 1열 */
-#reserve .form-row,
-#reserve .form-row-1 { 
-  display: grid; 
-  grid-template-columns: 1fr; 
-  gap: 10px; 
-}
-
-/* 태블릿 이상: 2열로 컴팩트하게 */
-@media (min-width: 768px) {
-  #reserve .form-row { grid-template-columns: 1fr 1fr; }
-  #reserve .form-row-1 { grid-template-columns: 1fr; }
-}
-
-/* 입력/선택 필드 크기/스타일 통일 (모바일~데스크탑 동일) */
-#reserve input,
-#reserve select,
-#reserve textarea {
-  width: 100%;
-  height: 48px;
-  padding: 12px 14px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  box-sizing: border-box;
-}
-#reserve textarea { height: auto; min-height: 96px; }
-
-/* 드롭다운(시간/학교급) 연한 회색 톤 유지 */
-#reserve select#slot,
-#reserve select#school_level {
-  background: rgba(255,255,255,0.25);
-  border: 1px solid rgba(255,255,255,0.3);
-}
-#reserve select,
-#reserve select option { color:#fff; background: rgba(15,24,61,0.95); }
-
-/* 포커스/호버 접근성 */
-#reserve input:focus,
-#reserve select:focus,
-#reserve textarea:focus {
-  border-color: rgba(255,255,255,0.5);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
-}
-#reserve select#slot:hover,
-#reserve select#school_level:hover { background: rgba(255,255,255,0.35); }
-
-/* 제목과 카드 사이 여백 정리 (모바일~데스크탑 균형) */
-#reserve h2, #about h2 { margin-top: 8px; margin-bottom: 12px; }
-#reserve .card + h2 { margin-top: 32px; }
-
-
+/* 섹션 구분선 */
+.section{border-top:1px solid rgba(255,255,255,.08)}
 
     
   </style>
