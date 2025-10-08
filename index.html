@@ -191,6 +191,91 @@ input:focus, select:focus, textarea:focus {
 .section {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+/* ────────────────────────────────
+   🌌 전체 Glassmorphism 통일 테마
+──────────────────────────────── */
+
+/* 전체 배경 약간 더 깊은 톤으로 */
+body {
+  background: radial-gradient(circle at 20% 10%, #0b1330 0%, #060b1f 70%, #040816 100%);
+  color: #e8ecff;
+}
+
+/* 카드 공통 스타일 (Glass 효과) */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f2f6ff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px 24px;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+/* 카드 내부 텍스트 톤 조정 */
+.card b { color: #ffffff; }
+.card span { color: #cfd7ff; }
+
+/* 예약하기 카드도 같은 톤으로 통일 */
+#reserve .card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* 버튼도 Glass 스타일 */
+.btn {
+  background: rgba(21, 220, 246, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+.btn:hover {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #0a1128;
+  transform: translateY(-1px);
+}
+
+/* Ghost 버튼 */
+.btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* 입력 폼 Glass 톤 조정 */
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+input::placeholder,
+select,
+textarea::placeholder { color: #cbd5f3; }
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* 예약 카드 폭 및 정렬 */
+#reserve .card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* 섹션 간 구분선 은은하게 */
+.section {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
 
     
   </style>
@@ -216,7 +301,7 @@ input:focus, select:focus, textarea:focus {
   <section id="reserve" class="section">
     <div class="wrap">
     <h2>행사 소개</h2>
-          <p class="muted">아이들이 직접 만드는 나만의 콘텐츠! AI 이미지·게임·로봇 체험을 통해 창의력과 문제해결력을 길러요.</p>
+          <p class="muted">아이들이 직접 만드는 나만의 콘텐츠! AI를 이용하여 나만의 웹서비스를 만들며 창의력과 문제해결력을 길러요.</p>
           <div class="card kvs" style="margin-top:14px;">
             <div class="kv"><b>대상</b><span>초/중/고 학생 및 학부모</span></div>
             <div class="kv"><b>운영</b><span>각 타임 30분, 회차별 정원 10명</span></div>
@@ -225,8 +310,7 @@ input:focus, select:focus, textarea:focus {
         </div>
              
       <h2><br>예약하기</h2>
-      <p class="muted" style="margin-bottom:14px;">로그인 없이 예약 가능합니다. 동일 시간대는 정원 10명까지 자동 마감됩니다.</p>
-
+    
       <div class="card">
         <!-- 제출 후 리다이렉트 방지용 -->
         <iframe name="hidden_iframe" style="display:none;" onload="if(window._submitted){document.getElementById('ok').style.display='block';}"></iframe>
@@ -282,8 +366,8 @@ input:focus, select:focus, textarea:focus {
           </div>
 
           <button class="submit" type="submit">예약 제출</button>
-          <div id="ok" class="success">✅ 예약이 완료되었습니다! 담당자가 확인 후 연락드립니다.</div>
-          <div class="note">※ 동일 시간 중복은 자동 마감됩니다.</div>
+          <div id="ok" class="success">✅ 예약이 완료되었습니다!</div>
+          <div class="note">※ 동일 시간은 최대 10명까지 접수됩니다.</div>
         </form>
       </div>
     </div>
@@ -292,69 +376,84 @@ input:focus, select:focus, textarea:focus {
 <!-- ABOUT -->
 <section id="about" class="section">
   <div class="wrap">
-    <div class="grid">
-      <div class="col-6">
-        <h2>나니아랩 소개</h2>
-        <p class="muted">
-          나니아랩은 <b>AI · 게임 · 로봇</b>을 기반으로 아이들의 창의력과 문제해결력을 키우는
-          <b>체험·프로젝트형 교육랩</b>입니다. 상상한 것을 직접 구현하며 스스로 배우는
-          <b>AI-PBL(프로젝트 기반 학습)</b>을 지향합니다.
-        </p>
+    <h2>나니아랩 소개</h2>
 
-        <div class="card kvs" style="margin-top:14px;">
-          <div class="kv"><b>미션</b><span>“기술은 도구, 세상을 바꾸는 건 생각” — 배움의 주체성을 키웁니다.</span></div>
-          <div class="kv"><b>핵심영역</b><span>AI 창작, 게임 제작, 로봇/메이킹, 디지털 공작</span></div>
-          <div class="kv"><b>운영방식</b><span>체험→미니프로젝트→쇼케이스로 이어지는 몰입형 커리큘럼</span></div>
-          <div class="kv"><b>문의</b><span>contact@narnialab.kr</span></div>
+    <div class="card">
+      <p style="margin-bottom:14px;">
+        나니아랩은 단순한 코딩 기술이나 AI 사용법을 가르치지 않습니다.<br>
+        <b>“기술은 도구, 세상을 바꾸는 것은 생각이다.”</b><br>
+        우리는 스스로 사고하고 질문하는 힘을 길러, <b>AI를 다루는 창의적 설계자</b>를 키웁니다.
+      </p>
+
+      <div style="display:grid; gap:16px; margin-top:16px;">
+        <!-- 미션 -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2l2.39 7.26h7.61l-6.18 4.49L18.82 22 12 17.27 5.18 22l2.99-8.25L2 9.26h7.61L12 2z" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          </svg>
+          <div>
+            <b>🎯 미션</b>
+            <p class="muted" style="margin:.3rem 0 0;">
+              질문을 통해 생각하는 힘을 기르고,<br>
+              AI를 활용해 세상에 새로운 가치를 창조하는 <b>Next-generation Architect</b>를 양성합니다.
+            </p>
+          </div>
         </div>
 
-        <!-- 소셜/링크 -->
-        <div class="social">
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/narnialab_official/?hl=ko" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.5"/>
-              <circle cx="12" cy="12" r="3.8" stroke="currentColor" stroke-width="1.5"/>
-              <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
-            </svg>
-            Instagram
-          </a>
-
-          <!-- Homepage -->
-          <a href="https://narnia-lab.github.io/home/#home" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9Z" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-            홈페이지
-          </a>
-
-          <!-- KakaoTalk -->
-          <a href="http://pf.kakao.com/_DZhmn" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3.5c-5.25 0-9.5 3.39-9.5 7.56 0 2.67 1.83 4.99 4.59 6.27l-.78 3.09a.7.7 0 0 0 1.05.77l3.66-2.15c.95.15 1.94.23 2.98.23 5.25 0 9.5-3.39 9.5-7.56S17.25 3.5 12 3.5Z" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-            카카오톡
-          </a>
+        <!-- 핵심 영역 -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 8h18v2H3V8Zm0 4h18v2H3v-2Zm0 4h18v2H3v-2Z" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          </svg>
+          <div>
+            <b>💡 핵심 영역</b>
+            <ul style="margin:.3rem 0 0; padding-left:18px; line-height:1.7;">
+              <li><b>AI 창작</b> — 인공지능을 활용한 예술·콘텐츠 제작</li>
+              <li><b>게임 제작</b> — 스토리·디자인·코딩을 결합한 창의적 개발</li>
+              <li><b>로봇·메이킹</b> — 실제 하드웨어와 융합된 실습형 프로젝트</li>
+              <li><b>디지털 공작</b> — 상상력을 구현하는 디자인·3D·프로그래밍 통합 교육</li>
+            </ul>
+          </div>
         </div>
-        <!-- /social -->
+
+        <!-- 운영 방식 -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-4 3v-3H6a2 2 0 0 1-2-2V6Z" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          </svg>
+          <div>
+            <b>⚙️ 운영 방식</b>
+            <p class="muted" style="margin:.3rem 0 0;">
+              <b>AI-PBL 기반 몰입형 학습</b>으로 프로젝트 중심의 실습을 통해 배우고 성장합니다.<br>
+              학습 수준에 따라 두 가지 트랙으로 운영됩니다:
+            </p>
+            <ul style="margin:.4rem 0 0; padding-left:18px; line-height:1.6;">
+              <li><b>Elite Track</b> — 심화 실습 중심의 소수 정예 프로젝트형 교육</li>
+              <li><b>Public Track</b> — 체험 중심의 기본기 강화형 교육</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="col-6">
-        <h2>일정 / 장소</h2>
-        <div class="card">
-          <ul style="margin:0; padding-left:18px; line-height:1.9;">
-            <li>10:30 / 11:00 / 11:30 / 12:00 / 12:30</li>
-            <li>13:00 / 13:30 / 14:00 / 14:30</li>
-            <li>15:00 / 15:30 / 16:00 / 16:30</li>
-          </ul>
-          <hr style="margin:16px 0; border:0; border-top:1px solid #eee;">
-          <p style="margin:0;"><b>장소</b> 울산수학체험한마당 특별부스 9 (안내 데스크에서 “나니아랩” 문의)</p>
-        </div>
+      <!-- 소셜 링크 -->
+      <div class="social" style="margin-top:20px;">
+        <a href="https://www.instagram.com/narnialab_official/?hl=ko" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.8" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+          Instagram
+        </a>
+        <a href="https://narnia-lab.github.io/home/#home" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="1.5"/></svg>
+          홈페이지
+        </a>
+        <a href="http://pf.kakao.com/_DZhmn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c-5.25 0-9.5 3.39-9.5 7.56 0 2.67 1.83 4.99 4.59 6.27l-.78 3.09a.7.7 0 0 0 1.05.77l3.66-2.15c.95.15 1.94.23 2.98.23 5.25 0 9.5-3.39 9.5-7.56S17.25 3.5 12 3.5Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          카카오톡
+        </a>
       </div>
     </div>
   </div>
 </section>
+
 
 
   
