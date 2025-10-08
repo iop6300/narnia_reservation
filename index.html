@@ -1,230 +1,305 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>나니아랩 체험예약</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Narnia Events | 10월 18일 행사 예약</title>
+  <meta name="description" content="나니아랩 행사 예약 페이지" />
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      display: flex; justify-content: center; align-items: center;
-      min-height: 100vh; margin: 0; background-color: #f4f7f6;
+    :root {
+      --primary:#15dcf6; --accent:#f42bce; --text:#0a1128; --muted:#667085;
+      --bg:#0a1128; --card:#ffffff; --cardText:#222; --btn:#0a84ff; --btnHover:#0056b3;
     }
-    .container {
-      background-color: #ffffff; padding: 40px; border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 480px; text-align: center;
+    * { box-sizing:border-box; }
+    html,body { margin:0; padding:0; scroll-behavior:smooth; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; color:var(--cardText); background:var(--bg); }
+    a { color:inherit; text-decoration:none; }
+    .wrap { max-width:1100px; margin:0 auto; padding:0 20px; }
+
+    /* Hero with particles */
+    .hero {
+      position:relative; min-height:68vh; display:flex; align-items:center; overflow:hidden;
+      color:#fff; background: radial-gradient(1200px 600px at 20% 10%, #111b3a 0%, #0a1128 60%, #071024 100%);
     }
-    h1 { color: #333; margin-bottom: 10px; }
-    p { color: #666; margin-bottom: 24px; }
-    .form-group { margin-bottom: 16px; text-align: left; }
-    label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
-    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
-    button { width: 100%; padding: 14px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color .3s; }
-    button:hover { background-color: #0056b3; }
-    #message { margin-top: 16px; font-weight: 700; color: #0a8f3c; display: none; }
+    #particles { position:absolute; inset:0; }
+    .hero__inner { position:relative; z-index:1; padding:80px 0; }
+    .badge { display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; letter-spacing:.08em; background:rgba(255,255,255,.12); backdrop-filter: blur(6px);}
+    .title {
+      font-weight:800; line-height:1.05; margin:14px 0 12px;
+      font-size: clamp(32px, 5vw, 56px);
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .subtitle { color:#c9d1ff; max-width:720px; font-size: clamp(15px, 2.2vw, 18px); }
+    .cta { display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+    .btn {
+      padding:12px 16px; border-radius:12px; font-weight:700; border:1px solid rgba(255,255,255,.2); color:#fff;
+      background:linear-gradient(90deg,var(--primary),var(--accent));
+    }
+    .btn--ghost{ background:transparent; }
+    .hero__meta { margin-top:16px; font-size:14px; color:#c9d1ff; }
+
+    /* Sections */
+    section { background:#0c1332; color:#e6ebff; }
+    .section { padding:56px 0; border-top:1px solid rgba(255,255,255,.06); }
+    h2 { margin:0 0 18px; font-size: clamp(22px, 3vw, 28px); color:#fff; }
+    .muted { color:#9fb0ff; }
+
+    /* Cards */
+    .grid { display:grid; gap:18px; grid-template-columns: repeat(12,1fr); }
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
+    @media (max-width: 900px) {
+      .col-4, .col-6 { grid-column: span 12; }
+    }
+
+    .card {
+      background:var(--card); color:var(--cardText);
+      border-radius:16px; padding:22px; box-shadow:0 8px 28px rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .kvs { display:grid; gap:10px; }
+    .kv { display:flex; gap:10px; }
+    .kv b{ min-width:84px; }
+
+    /* Form */
+    .form-row { display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+    .form-row-1 { grid-template-columns:1fr; }
+    label { font-weight:700; font-size:14px; color:#374151; display:block; margin:2px 0 6px; }
+    input, select, textarea {
+      width:100%; padding:12px; border:1px solid #e5e7eb; border-radius:10px; font-size:16px; outline:none;
+      background:#fff;
+    }
+    input:focus, select:focus, textarea:focus { border-color:#cbd5e1; box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+    .submit { width:100%; padding:14px; border:0; border-radius:12px; background:var(--btn); color:#fff; font-size:16px; font-weight:800; cursor:pointer; }
+    .submit:hover { background:var(--btnHover); }
+    .note { font-size:12px; color:#6b7280; margin-top:8px; }
+    .success { display:none; margin-top:10px; color:#0a8f3c; font-weight:800; }
+
+    footer { color:#9fb0ff; text-align:center; padding:26px 0; border-top:1px solid rgba(255,255,255,.06); }
   </style>
 </head>
-<script>
-/* ===== 설정값 ===== */
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR-3NyxcSuT4ae-vKID-puCXh81IXh53lhbiYfifAe3mphkeOJ6XlZ6GF1sLr2K6oXfC0suC4HujR2m/pub?gid=1837035928&single=true&output=csv"; // 예) 구글시트 웹게시 CSV, 또는 raw.githubusercontent.com 경로
-const MAX_PEOPLE = 10;
-/* ================== */
-
-function normalize(s) {
-  if (s == null) return "";
-  // BOM, NBSP, 전각공백 등 제거 + 앞뒤 공백 제거
-  return String(s)
-    .replace(/^\uFEFF/, "")
-    .replace(/\u00A0/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-// 가장 관대한 CSV 파서(따옴표/쉼표 단순 지원)
-function parseCSV(text) {
-  // BOM 제거
-  text = text.replace(/^\uFEFF/, "");
-  const rows = [];
-  let i = 0, inQuotes = false, field = "", row = [];
-  while (i < text.length) {
-    const ch = text[i];
-    if (ch === '"') {
-      if (inQuotes && text[i+1] === '"') { field += '"'; i += 2; continue; }
-      inQuotes = !inQuotes; i++; continue;
-    }
-    if (!inQuotes && (ch === "," || ch === "\t")) { // 쉼표/탭 모두 허용
-      row.push(normalize(field)); field = ""; i++; continue;
-    }
-    if (!inQuotes && (ch === "\n" || ch === "\r")) {
-      // CRLF/LF 처리
-      if (ch === "\r" && text[i+1] === "\n") i++;
-      row.push(normalize(field)); field = "";
-      if (row.length && row.some(x=>x.length>0)) rows.push(row);
-      row = []; i++; continue;
-    }
-    field += ch; i++;
-  }
-  // 마지막 필드
-  if (field.length || row.length) {
-    row.push(normalize(field)); 
-    if (row.length && row.some(x=>x.length>0)) rows.push(row);
-  }
-  return rows;
-}
-
-function log(...args){ console.log("[예약마감]", ...args); }
-
-async function fetchCSV(url) {
-  // Google Drive 공유 URL은 직접 다운로드 링크로 변환 필요
-  // 예: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-  //  → https://drive.google.com/uc?export=download&id=FILE_ID
-  if (/drive\.google\.com\/file\/d\//.test(url)) {
-    const id = url.match(/file\/d\/([^/]+)/)?.[1];
-    if (id) url = `https://drive.google.com/uc?export=download&id=${id}`;
-  }
-
-  const res = await fetch(url + (url.includes("?") ? "&" : "?") + "_ts=" + Date.now(), {
-    redirect: "follow" // 리다이렉트 허용
-  });
-  if (!res.ok) throw new Error(`CSV fetch 실패: ${res.status} ${res.statusText}`);
-  return await res.text();
-}
-
-function applyCounts(countMap) {
-  const select = document.getElementById("slot");
-  if (!select) { log("select#slot 없음"); return; }
-
-  [...select.options].forEach(opt => {
-    if (!opt.value) return;
-    // value가 없으면 text를 사용
-    const key = normalize(opt.value || opt.textContent);
-    const cnt = Number(countMap.get(key) || 0);
-    if (cnt >= MAX_PEOPLE) {
-      opt.disabled = true;
-      // 이미 (마감) 표시가 있으면 중복 방지
-      if (!/\(마감\)$/.test(opt.textContent)) {
-        opt.textContent = `${normalize(opt.textContent)} (마감)`;
-      }
-    } else {
-      opt.disabled = false;
-      // (마감) 표시 제거
-      opt.textContent = normalize(opt.textContent).replace(/\s*\(마감\)$/, "");
-    }
-  });
-
-  // 이미 선택된 옵션이 마감되었다면 초기화
-  if (select.selectedOptions[0]?.disabled) {
-    select.value = "";
-  }
-}
-
-async function refreshCloseSlots() {
-  try {
-    log("CSV 불러오는 중…", CSV_URL);
-    const csv = await fetchCSV(CSV_URL);
-    const rows = parseCSV(csv);
-    if (!rows.length) { log("CSV 파싱 결과 없음"); return; }
-
-    const header = rows[0].map(normalize);
-    // 헤더 후보 여러 개 지원(예약 시간/시간/slot, 인원수/count)
-    const timeIdx =
-      header.findIndex(h => /예약\s*시간|시간|slot/i.test(h)) ?? -1;
-    const countIdx =
-      header.findIndex(h => /인원|인원수|count/i.test(h)) ?? -1;
-
-    if (timeIdx === -1 || countIdx === -1) {
-      log("헤더 감지 실패. 헤더:", header);
-      return;
-    }
-
-    const countMap = new Map();
-    rows.slice(1).forEach(r => {
-      const t = normalize(r[timeIdx]);
-      const c = Number(normalize(r[countIdx])) || 0;
-      if (t) countMap.set(t, c);
-    });
-
-    log("집계:", Object.fromEntries(countMap));
-    applyCounts(countMap);
-  } catch (e) {
-    console.error("[예약마감] 에러:", e);
-  }
-}
-
-// 초기 1회 + 주기 갱신(60초)
-refreshCloseSlots();
-setInterval(refreshCloseSlots, 60 * 1000);
-</script>
-
-
-  
 <body>
-  <div class="container">
-    <h1>나니아랩 체험 예약</h1>
-    <p>나만의 웹페이지/게임 만들기</p>
 
-    <form
-      action="https://docs.google.com/forms/d/e/1FAIpQLScSgLalQZ7wq4n2w8gAn04Rs4OHnRbs-nMGGV8-fyVGj2_vdA/formResponse"
-      method="POST"
-      target="hidden_iframe"
-      onsubmit="window._submitted=true"
-    >
-      <div class="form-group">
-        <label for="student_name">학생이름</label>
-        <input type="text" id="student_name" name="entry.809640200" required placeholder="예) 김나니" />
+  <!-- HERO -->
+  <header class="hero">
+    <canvas id="particles"></canvas>
+    <div class="wrap hero__inner">
+      <span class="badge">NARNIA LAB · OPEN EVENT</span>
+      <h1 class="title">10월 18일 체험 부스 예약</h1>
+      <p class="subtitle">AI·게임·로봇 체험을 한 자리에서! 아래에서 행사 안내를 확인하시고, 원하시는 시간으로 예약해 주세요. 동일 시간은 최대 10명까지 접수됩니다.</p>
+      <div class="cta">
+        <a class="btn" href="#reserve">지금 예약하기</a>
+        <a class="btn btn--ghost" href="#about">행사 안내 보기</a>
       </div>
+      <div class="hero__meta">장소: 울산 ○○ / 일시: 2025-10-18(토) 10:30–16:30</div>
+    </div>
+  </header>
 
-      <div class="form-group">
-        <label for="parent_phone">보호자 연락처</label>
-        <input type="tel" id="parent_phone" name="entry.543683465" required placeholder="예) 010-1234-5678" />
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="wrap">
+      <div class="grid">
+        <div class="col-6">
+          <h2>행사 소개</h2>
+          <p class="muted">아이들이 직접 만드는 나만의 콘텐츠! AI 이미지·게임·로봇 체험을 통해 창의력과 문제해결력을 길러요.</p>
+          <div class="card kvs" style="margin-top:14px;">
+            <div class="kv"><b>대상</b><span>초/중/고 학생 및 학부모</span></div>
+            <div class="kv"><b>운영</b><span>각 타임 30분, 회차별 정원 10명</span></div>
+            <div class="kv"><b>준비물</b><span>없음 (현장 장비 제공)</span></div>
+            <div class="kv"><b>문의</b><span>contact@narnialab.kr</span></div>
+          </div>
+        </div>
+        <div class="col-6">
+          <h2>일정 / 장소</h2>
+          <div class="card">
+            <ul style="margin:0; padding-left:18px; line-height:1.9;">
+              <li>10:30 / 11:00 / 11:30 / 12:00 / 12:30</li>
+              <li>13:00 / 13:30 / 14:00 / 14:30</li>
+              <li>15:00 / 15:30 / 16:00 / 16:30</li>
+            </ul>
+            <hr style="margin:16px 0; border:0; border-top:1px solid #eee;">
+            <p style="margin:0;"><b>장소</b> 울산 ○○ 행사장 A홀(안내 데스크에서 “나니아랩” 부스 문의)</p>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="form-group">
-        <label for="slot">예약 시간</label>
-        <select id="slot" name="entry.1621677829" required>
-          <option value="">시간 선택</option>
-          <option>10:30</option>
-          <option>11:00</option>
-          <option>11:30</option>
-          <option>12:00</option>
-          <option>12:30</option>
-          <option>13:00</option>
-          <option>13:30</option>
-          <option>14:00</option>
-          <option>14:30</option>
-          <option>15:00</option>
-          <option>15:30</option>
-          <option>16:00</option>
-          <option>16:30</option>
-        </select>
+  <!-- RESERVE -->
+  <section id="reserve" class="section">
+    <div class="wrap">
+      <h2>예약하기</h2>
+      <p class="muted" style="margin-bottom:18px;">로그인 없이 예약 가능합니다. 동일 시간대는 정원 10명까지 자동 마감됩니다.</p>
+
+      <div class="card">
+        <!-- 제출 후 리다이렉트 방지용 -->
+        <iframe name="hidden_iframe" style="display:none;" onload="if(window._submitted){document.getElementById('ok').style.display='block';}"></iframe>
+
+        <!-- ✅ 구글폼 ACTION / ENTRY 키는 이미 사용자님 폼 기준으로 세팅 -->
+        <form
+          action="https://docs.google.com/forms/d/e/1FAIpQLScSgLalQZ7wq4n2w8gAn04Rs4OHnRbs-nMGGV8-fyVGj2_vdA/formResponse"
+          method="POST" target="hidden_iframe" onsubmit="window._submitted=true">
+
+          <div class="form-row">
+            <div>
+              <label for="student_name">학생이름</label>
+              <input id="student_name" name="entry.809640200" required placeholder="예) 김나니" />
+            </div>
+            <div>
+              <label for="parent_phone">보호자 연락처</label>
+              <input id="parent_phone" name="entry.543683465" required placeholder="예) 010-1234-5678" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label for="slot">예약 시간</label>
+              <select id="slot" name="entry.1621677829" required>
+                <option value="">시간 선택</option>
+                <option>10:30</option><option>11:00</option><option>11:30</option>
+                <option>12:00</option><option>12:30</option><option>13:00</option>
+                <option>13:30</option><option>14:00</option><option>14:30</option>
+                <option>15:00</option><option>15:30</option><option>16:00</option><option>16:30</option>
+              </select>
+            </div>
+            <div>
+              <label for="school_level">학교급</label>
+              <select id="school_level" name="entry.261454937" required>
+                <option value="">선택</option>
+                <option>초등학교</option><option>중학교</option><option>고등학교</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row form-row-1">
+            <div>
+              <label for="grade">학생 학년</label>
+              <input id="grade" name="entry.156928591" required placeholder="예) 2학년" />
+            </div>
+          </div>
+
+          <div class="form-row form-row-1">
+            <div>
+              <label for="interest">학생 관심분야</label>
+              <input id="interest" name="entry.763983283" placeholder="예) AI, 게임, 로봇 등" />
+            </div>
+          </div>
+
+          <button class="submit" type="submit">예약 제출</button>
+          <div id="ok" class="success">✅ 예약이 완료되었습니다! 담당자가 확인 후 연락드립니다.</div>
+          <div class="note">※ 동일 시간 중복은 자동 마감됩니다.</div>
+        </form>
       </div>
+    </div>
+  </section>
 
-      <div class="form-group">
-        <label for="school_level">학교급</label>
-        <select id="school_level" name="entry.261454937" required>
-          <option value="">선택</option>
-          <option>초등학교</option>
-          <option>중학교</option>
-          <option>고등학교</option>
-        </select>
-      </div>
+  <footer>
+    <div class="wrap">© Narnia Lab · Made with ♡</div>
+  </footer>
 
-      <div class="form-group">
-        <label for="grade">학생 학년</label>
-        <input type="text" id="grade" name="entry.156928591" required placeholder="예) 2학년" />
-      </div>
+  <!-- Particles (가벼운 캔버스 배경) -->
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W,H, points=[];
 
-      <div class="form-group">
-        <label for="interest">학생 관심분야</label>
-        <input type="text" id="interest" name="entry.763983283" placeholder="예) AI, 게임, 로봇 등" />
-      </div>
+    function resize(){
+      W = canvas.width = canvas.offsetWidth = canvas.parentElement.offsetWidth;
+      H = canvas.height = canvas.offsetHeight = canvas.parentElement.offsetHeight;
+      // 초기화 (화면 크기에 따라 포인트 갯수 조절)
+      const count = Math.max(60, Math.floor(W * H / 26000));
+      points = Array.from({length: count}).map(()=>({
+        x: Math.random()*W, y: Math.random()*H,
+        vx:(Math.random()*2-1)*0.6, vy:(Math.random()*2-1)*0.6
+      }));
+    }
+    window.addEventListener('resize', resize, {passive:true});
+    resize();
 
-      <button type="submit">예약하기</button>
-    </form>
+    function step(){
+      ctx.clearRect(0,0,W,H);
+      // 점 이동 + 그리기
+      for(const p of points){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1;
+        if(p.y<0||p.y>H) p.vy*=-1;
+        ctx.globalAlpha = 0.7;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(p.x,p.y,1.3,0,Math.PI*2); ctx.fill();
+      }
+      // 라인 연결
+      for(let i=0;i<points.length;i++){
+        for(let j=i+1;j<points.length;j++){
+          const a=points[i], b=points[j];
+          const dx=a.x-b.x, dy=a.y-b.y;
+          const d2=dx*dx+dy*dy;
+          if(d2<140*140){
+            ctx.globalAlpha = 0.05 + (1 - d2/(140*140))*0.15;
+            ctx.strokeStyle = '#ffffff';
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    step();
+  </script>
 
-    <div id="message" aria-live="polite">✅ 예약이 완료되었습니다!</div>
-  </div>
+  <!-- 집계 CSV를 불러와 인원수 >=10 시간대 (마감) 처리 -->
+  <script>
+    /* 👉 이 URL만 본인 것으로 교체하세요! (raw CSV) */
+    const CSV_URL = "PUT_YOUR_PUBLIC_CSV_URL_HERE"; // 예: https://raw.githubusercontent.com/<user>/<repo>/main/booth-count.csv
+    const MAX_PEOPLE = 10;
 
-  <iframe name="hidden_iframe" style="display:none;" onload="if(window._submitted){document.getElementById('message').style.display='block';}"></iframe>
+    function normalize(s){ return String(s||'').replace(/^\uFEFF/,'').replace(/\u00A0/g,' ').trim(); }
+
+    async function fetchCSV(url){
+      const res = await fetch(url + (url.includes('?')?'&':'?') + '_ts=' + Date.now(), {redirect:'follow'});
+      if(!res.ok) throw new Error(res.status + ' ' + res.statusText);
+      return await res.text();
+    }
+    function parseCSV(text){
+      const lines = text.replace(/^\uFEFF/,'').trim().split(/\r?\n/);
+      return lines.map(line => line.split(',').map(v=>normalize(v)));
+    }
+    function applyCounts(map){
+      const sel = document.getElementById('slot');
+      if(!sel) return;
+      [...sel.options].forEach(opt=>{
+        if(!opt.value) return;
+        const key = normalize(opt.value);
+        const cnt = Number(map.get(key)||0);
+        if(cnt >= MAX_PEOPLE){
+          opt.disabled = true;
+          if(!/\(마감\)$/.test(opt.textContent)) opt.textContent = opt.textContent + ' (마감)';
+        } else {
+          opt.disabled = false;
+          opt.textContent = opt.textContent.replace(/\s*\(마감\)$/,'');
+        }
+      });
+      if(sel.selectedOptions[0]?.disabled) sel.value="";
+    }
+    async function refreshCloseSlots(){
+      try{
+        const csv = await fetchCSV(CSV_URL);
+        const rows = parseCSV(csv);
+        if(!rows.length) return;
+        const header = rows[0].map(normalize);
+        const timeIdx = header.findIndex(h=>/예약\s*시간|시간|slot/i.test(h));
+        const cntIdx  = header.findIndex(h=>/인원|인원수|count/i.test(h));
+        const map = new Map();
+        rows.slice(1).forEach(r=>{
+          const t = normalize(r[timeIdx]);
+          const c = Number(normalize(r[cntIdx]))||0;
+          if(t) map.set(t,c);
+        });
+        applyCounts(map);
+      }catch(e){ console.error('[마감] CSV 로드 오류', e); }
+    }
+    refreshCloseSlots();
+    setInterval(refreshCloseSlots, 60*1000);
+  </script>
 </body>
 </html>
