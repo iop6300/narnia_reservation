@@ -132,9 +132,9 @@ h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
 
 /* “예약 시간/학교급”만 연한 회색 톤 */
 #reserve select#slot,#reserve select#school_level{
-  background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.3);transition:background .2s ease
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);transition:background .2s ease
 }
-#reserve select#slot:hover,#reserve select#school_level:hover{background:rgba(255,255,255,.35)}
+#reserve select#slot:hover,#reserve select#school_level:hover{background:rgba(255,255,255,.12)}
 
 /* Focus 접근성 */
 #reserve input:focus,#reserve select:focus,#reserve textarea:focus{
@@ -152,6 +152,42 @@ h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
 
 /* 섹션 구분선 */
 .section{border-top:1px solid rgba(255,255,255,.08)}
+/* 1) 예약 시간/학교급 드롭다운을 다른 입력칸과 동일 스타일로 통일 */
+#reserve select#slot,
+#reserve select#school_level {
+  background: rgba(255, 255, 255, 0.12) !important;  /* 다른 필드와 동일 */
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff;
+}
+
+/* 호버 시에도 색 변화 없이 통일감 유지 */
+#reserve select#slot:hover,
+#reserve select#school_level:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* 드롭다운 펼친 옵션 리스트는 가독성 유지 */
+#reserve select,
+#reserve select option {
+  color:#fff;
+  background: rgba(15, 24, 61, 0.95);
+}
+
+/* 2) 예약하기 폼의 form-row 간 세로 간격(행간) 늘리기 */
+#reserve .form-row,
+#reserve .form-row-1 {
+  row-gap: 14px;        /* 같은 행 안의 필드 간격 */
+  margin-bottom: 18px;  /* 행(row)들 사이의 세로 간격 */
+}
+
+/* 태블릿 이상에서 간격 조금 더 여유 있게 */
+@media (min-width: 768px) {
+  #reserve .form-row,
+  #reserve .form-row-1 {
+    row-gap: 16px;
+    margin-bottom: 22px;
+  }
+}
 
     
   </style>
