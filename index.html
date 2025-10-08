@@ -24,6 +24,140 @@
     #message { margin-top: 16px; font-weight: 700; color: #0a8f3c; display: none; }
   </style>
 </head>
+<script>
+/* ===== 설정값 ===== */
+const CSV_URL = "여기에_공개_CSV_URL"; // 예) 구글시트 웹게시 CSV, 또는 raw.githubusercontent.com 경로
+const MAX_PEOPLE = 10;
+/* ================== */
+
+function normalize(s) {
+  if (s == null) return "";
+  // BOM, NBSP, 전각공백 등 제거 + 앞뒤 공백 제거
+  return String(s)
+    .replace(/^\uFEFF/, "")
+    .replace(/\u00A0/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// 가장 관대한 CSV 파서(따옴표/쉼표 단순 지원)
+function parseCSV(text) {
+  // BOM 제거
+  text = text.replace(/^\uFEFF/, "");
+  const rows = [];
+  let i = 0, inQuotes = false, field = "", row = [];
+  while (i < text.length) {
+    const ch = text[i];
+    if (ch === '"') {
+      if (inQuotes && text[i+1] === '"') { field += '"'; i += 2; continue; }
+      inQuotes = !inQuotes; i++; continue;
+    }
+    if (!inQuotes && (ch === "," || ch === "\t")) { // 쉼표/탭 모두 허용
+      row.push(normalize(field)); field = ""; i++; continue;
+    }
+    if (!inQuotes && (ch === "\n" || ch === "\r")) {
+      // CRLF/LF 처리
+      if (ch === "\r" && text[i+1] === "\n") i++;
+      row.push(normalize(field)); field = "";
+      if (row.length && row.some(x=>x.length>0)) rows.push(row);
+      row = []; i++; continue;
+    }
+    field += ch; i++;
+  }
+  // 마지막 필드
+  if (field.length || row.length) {
+    row.push(normalize(field)); 
+    if (row.length && row.some(x=>x.length>0)) rows.push(row);
+  }
+  return rows;
+}
+
+function log(...args){ console.log("[예약마감]", ...args); }
+
+async function fetchCSV(url) {
+  // Google Drive 공유 URL은 직접 다운로드 링크로 변환 필요
+  // 예: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+  //  → https://drive.google.com/uc?export=download&id=FILE_ID
+  if (/drive\.google\.com\/file\/d\//.test(url)) {
+    const id = url.match(/file\/d\/([^/]+)/)?.[1];
+    if (id) url = `https://drive.google.com/uc?export=download&id=${id}`;
+  }
+
+  const res = await fetch(url + (url.includes("?") ? "&" : "?") + "_ts=" + Date.now(), {
+    redirect: "follow" // 리다이렉트 허용
+  });
+  if (!res.ok) throw new Error(`CSV fetch 실패: ${res.status} ${res.statusText}`);
+  return await res.text();
+}
+
+function applyCounts(countMap) {
+  const select = document.getElementById("slot");
+  if (!select) { log("select#slot 없음"); return; }
+
+  [...select.options].forEach(opt => {
+    if (!opt.value) return;
+    // value가 없으면 text를 사용
+    const key = normalize(opt.value || opt.textContent);
+    const cnt = Number(countMap.get(key) || 0);
+    if (cnt >= MAX_PEOPLE) {
+      opt.disabled = true;
+      // 이미 (마감) 표시가 있으면 중복 방지
+      if (!/\(마감\)$/.test(opt.textContent)) {
+        opt.textContent = `${normalize(opt.textContent)} (마감)`;
+      }
+    } else {
+      opt.disabled = false;
+      // (마감) 표시 제거
+      opt.textContent = normalize(opt.textContent).replace(/\s*\(마감\)$/, "");
+    }
+  });
+
+  // 이미 선택된 옵션이 마감되었다면 초기화
+  if (select.selectedOptions[0]?.disabled) {
+    select.value = "";
+  }
+}
+
+async function refreshCloseSlots() {
+  try {
+    log("CSV 불러오는 중…", CSV_URL);
+    const csv = await fetchCSV(CSV_URL);
+    const rows = parseCSV(csv);
+    if (!rows.length) { log("CSV 파싱 결과 없음"); return; }
+
+    const header = rows[0].map(normalize);
+    // 헤더 후보 여러 개 지원(예약 시간/시간/slot, 인원수/count)
+    const timeIdx =
+      header.findIndex(h => /예약\s*시간|시간|slot/i.test(h)) ?? -1;
+    const countIdx =
+      header.findIndex(h => /인원|인원수|count/i.test(h)) ?? -1;
+
+    if (timeIdx === -1 || countIdx === -1) {
+      log("헤더 감지 실패. 헤더:", header);
+      return;
+    }
+
+    const countMap = new Map();
+    rows.slice(1).forEach(r => {
+      const t = normalize(r[timeIdx]);
+      const c = Number(normalize(r[countIdx])) || 0;
+      if (t) countMap.set(t, c);
+    });
+
+    log("집계:", Object.fromEntries(countMap));
+    applyCounts(countMap);
+  } catch (e) {
+    console.error("[예약마감] 에러:", e);
+  }
+}
+
+// 초기 1회 + 주기 갱신(60초)
+refreshCloseSlots();
+setInterval(refreshCloseSlots, 60 * 1000);
+</script>
+
+
+  
 <body>
   <div class="container">
     <h1>행사 예약</h1>
@@ -92,42 +226,5 @@
   </div>
 
   <iframe name="hidden_iframe" style="display:none;" onload="if(window._submitted){document.getElementById('message').style.display='block';}"></iframe>
-
-  <script>
-  // CSV를 불러와 인원수 >=10인 시간대는 비활성화
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR-3NyxcSuT4ae-vKID-puCXh81IXh53lhbiYfifAe3mphkeOJ6XlZ6GF1sLr2K6oXfC0suC4HujR2m/pub?gid=1837035928&single=true&output=csv"; // 업로드된 CSV의 공개 URL
-  const MAX_PEOPLE = 10;
-
-  async function updateSlots() {
-    try {
-      const res = await fetch(CSV_URL + "?t=" + Date.now());
-      const text = await res.text();
-      const lines = text.trim().split(/\r?\n/);
-      const data = lines.slice(1).map(line => line.split(','));
-      const map = new Map();
-      for (const [time, count] of data) {
-        map.set(time.trim(), parseInt(count.trim()));
-      }
-
-      const select = document.getElementById("slot");
-      for (const opt of select.options) {
-        if (!opt.value) continue;
-        const count = map.get(opt.value.trim()) || 0;
-        if (count >= MAX_PEOPLE) {
-          opt.disabled = true;
-          opt.textContent = `${opt.value} (마감)`;
-        } else {
-          opt.disabled = false;
-          opt.textContent = opt.value;
-        }
-      }
-    } catch (err) {
-      console.error("CSV 불러오기 실패:", err);
-    }
-  }
-
-  updateSlots();
-  setInterval(updateSlots, 60000); // 1분마다 갱신
-  </script>
 </body>
 </html>
