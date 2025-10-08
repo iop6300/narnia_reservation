@@ -78,6 +78,16 @@
     .success { display:none; margin-top:10px; color:#0a8f3c; font-weight:800; }
 
     footer { color:#9fb0ff; text-align:center; padding:26px 0; border-top:1px solid rgba(255,255,255,.06); }
+
+.social { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.social a {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 14px; border-radius:12px; font-weight:700;
+  background:#111a3a; color:#e6ebff; border:1px solid rgba(255,255,255,.08);
+}
+.social a:hover { background:#1a2454; }
+.social svg { width:18px; height:18px; }
+    
   </style>
 </head>
 <body>
@@ -175,34 +185,71 @@
   </section>
 
 <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="wrap">
-      <div class="grid">
-        <div class="col-6">
-          <h2>행사 소개</h2>
-          <p class="muted">아이들이 직접 만드는 나만의 콘텐츠! AI 이미지·게임·로봇 체험을 통해 창의력과 문제해결력을 길러요.</p>
-          <div class="card kvs" style="margin-top:14px;">
-            <div class="kv"><b>대상</b><span>초/중/고 학생 및 학부모</span></div>
-            <div class="kv"><b>운영</b><span>각 타임 30분, 회차별 정원 10명</span></div>
-            <div class="kv"><b>준비물</b><span>없음 (현장 장비 제공)</span></div>
-            <div class="kv"><b>문의</b><span>contact@narnialab.kr</span></div>
-          </div>
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="grid">
+      <div class="col-6">
+        <h2>나니아랩 소개</h2>
+        <p class="muted">
+          나니아랩은 <b>AI · 게임 · 로봇</b>을 기반으로 아이들의 창의력과 문제해결력을 키우는
+          <b>체험·프로젝트형 교육랩</b>입니다. 상상한 것을 직접 구현하며 스스로 배우는
+          <b>AI-PBL(프로젝트 기반 학습)</b>을 지향합니다.
+        </p>
+
+        <div class="card kvs" style="margin-top:14px;">
+          <div class="kv"><b>미션</b><span>“기술은 도구, 세상을 바꾸는 건 생각” — 배움의 주체성을 키웁니다.</span></div>
+          <div class="kv"><b>핵심영역</b><span>AI 창작, 게임 제작, 로봇/메이킹, 디지털 공작</span></div>
+          <div class="kv"><b>운영방식</b><span>체험→미니프로젝트→쇼케이스로 이어지는 몰입형 커리큘럼</span></div>
+          <div class="kv"><b>문의</b><span>contact@narnialab.kr</span></div>
         </div>
-        <div class="col-6">
-          <h2>일정 / 장소</h2>
-          <div class="card">
-            <ul style="margin:0; padding-left:18px; line-height:1.9;">
-              <li>10:30 / 11:00 / 11:30 / 12:00 / 12:30</li>
-              <li>13:00 / 13:30 / 14:00 / 14:30</li>
-              <li>15:00 / 15:30 / 16:00 / 16:30</li>
-            </ul>
-            <hr style="margin:16px 0; border:0; border-top:1px solid #eee;">
-            <p style="margin:0;"><b>장소</b> 울산 ○○ 행사장 A홀(안내 데스크에서 “나니아랩” 부스 문의)</p>
-          </div>
+
+        <!-- 소셜/링크 -->
+        <div class="social">
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/narnialab_official/?hl=ko" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="3.8" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+            </svg>
+            Instagram
+          </a>
+
+          <!-- Homepage -->
+          <a href="https://narnia-lab.github.io/home/#home" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            홈페이지
+          </a>
+
+          <!-- KakaoTalk -->
+          <a href="http://pf.kakao.com/_DZhmn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3.5c-5.25 0-9.5 3.39-9.5 7.56 0 2.67 1.83 4.99 4.59 6.27l-.78 3.09a.7.7 0 0 0 1.05.77l3.66-2.15c.95.15 1.94.23 2.98.23 5.25 0 9.5-3.39 9.5-7.56S17.25 3.5 12 3.5Z" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            카카오톡
+          </a>
+        </div>
+        <!-- /social -->
+      </div>
+
+      <div class="col-6">
+        <h2>일정 / 장소</h2>
+        <div class="card">
+          <ul style="margin:0; padding-left:18px; line-height:1.9;">
+            <li>10:30 / 11:00 / 11:30 / 12:00 / 12:30</li>
+            <li>13:00 / 13:30 / 14:00 / 14:30</li>
+            <li>15:00 / 15:30 / 16:00 / 16:30</li>
+          </ul>
+          <hr style="margin:16px 0; border:0; border-top:1px solid #eee;">
+          <p style="margin:0;"><b>장소</b> 울산수학체험한마당 특별부스 9 (안내 데스크에서 “나니아랩” 문의)</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
 
   
