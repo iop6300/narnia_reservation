@@ -1,163 +1,162 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10월 18일 행사 예약</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 480px;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #666;
-            margin-bottom: 24px;
-        }
-        .form-group {
-            margin-bottom: 16px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 600;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 16px;
-            background: #fff;
-        }
-        textarea { resize: vertical; min-height: 84px; }
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover { background-color: #0056b3; }
-        #message {
-            margin-top: 16px;
-            font-weight: 700;
-        }
-        .fine-print {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #888;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10월 18일 행사 예약</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f7f6;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #666;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+      background: #fff;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 84px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #message {
+      margin-top: 16px;
+      font-weight: 700;
+      color: #0a8f3c;
+      display: none;
+    }
+    .fine-print {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>행사 예약</h1>
-        <p>2025년 10월 18일</p>
-        <form id="reservationForm" novalidate>
-            <div class="form-group">
-                <label for="student_name">학생이름</label>
-                <input type="text" id="student_name" name="student_name" required placeholder="예) 김나니">
-            </div>
-            <div class="form-group">
-                <label for="parent_phone">보호자 연락처</label>
-                <input type="tel" id="parent_phone" name="parent_phone" required placeholder="예) 010-1234-5678">
-            </div>
-            <div class="form-group">
-                <label for="slot">예약 시간</label>
-                <select id="slot" name="slot" required>
-                    <option value="">시간 선택</option>
-                    <option>10:30</option>
-                    <option>11:00</option>
-                    <option>11:30</option>
-                    <option>12:00</option>
-                    <option>12:30</option>
-                    <option>13:00</option>
-                    <option>13:30</option>
-                    <option>14:00</option>
-                    <option>14:30</option>
-                    <option>15:00</option>
-                    <option>15:30</option>
-                    <option>16:00</option>
-                    <option>16:30</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="school_level">학교급</label>
-                <select id="school_level" name="school_level" required>
-                    <option value="">선택</option>
-                    <option>초등학교</option>
-                    <option>중학교</option>
-                    <option>고등학교</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="grade">학생 학년</label>
-                <input type="text" id="grade" name="grade" required placeholder="예) 2학년">
-            </div>
-            <div class="form-group">
-                <label for="interest">학생 관심분야</label>
-                <input type="text" id="interest" name="interest" placeholder="예) AI, 게임, 로봇 등">
-            </div>
-            <button id="reserveBtn" type="submit">예약하기</button>
-        </form>
-        <div id="message" aria-live="polite"></div>
-        <div class="fine-print">※ 동일 시간 중복 예약은 자동으로 거절됩니다.</div>
-    </div>
+  <iframe
+    name="hidden_iframe"
+    style="display:none;"
+    onload="if(window._submitted){document.getElementById('message').style.display='block';}"
+  ></iframe>
 
-    <script>
-          const form = document.getElementById('reservationForm');
-          const messageDiv = document.getElementById('message');
+  <div class="container">
+    <h1>행사 예약</h1>
+    <p>2025년 10월 18일</p>
 
-          form.addEventListener('submit', function(e) {
-              e.preventDefault();
-              const scriptURL = 'https://script.google.com/macros/s/AKfycbw-oJAuXBhtqROgMfcUh-iOiMtY7L4u0rME0YUfdJxNHBO1KhsadblUFJBhm5pdG3Um/exec';
+    <form
+      action="https://docs.google.com/forms/d/e/1FAIpQLScSgLalQZ7wq4n2w8gAn04Rs4OHnRbs-nMGGV8-fyVGj2_vdA/formResponse"
+      method="POST"
+      target="hidden_iframe"
+      onsubmit="window._submitted=true"
+    >
+      <div class="form-group">
+        <label for="student_name">학생이름</label>
+        <input type="text" id="student_name" name="entry.809640200" required placeholder="예) 김나니" />
+      </div>
 
-              messageDiv.textContent = '예약 정보를 전송 중입니다...';
+      <div class="form-group">
+        <label for="parent_phone">보호자 연락처</label>
+        <input type="tel" id="parent_phone" name="entry.543683465" required placeholder="예) 010-1234-5678" />
+      </div>
 
-              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                  .then(response => {
-                      if (response.ok) {
-                          messageDiv.textContent = '✅ 예약이 완료되었습니다!';
-                          messageDiv.style.color = 'green';
-                          form.reset();
-                      } else {
-                          // 응답이 정상이 아닐 때 (예: 404, 500 오류)
-                          throw new Error('네트워크 응답이 올바르지 않습니다.');
-                      }
-                  })
-                  .catch(error => {
-                      // fetch 자체가 실패했을 때 (예: 네트워크 연결 끊김)
-                      console.error('Error!', error.message);
-                      messageDiv.textContent = '❌ 예약 처리 중 오류가 발생했습니다. 다시 시도해 주세요.';
-                      messageDiv.style.color = 'red';
-                  });
-          });
-      </script>
+      <div class="form-group">
+        <label for="slot">예약 시간</label>
+        <select id="slot" name="entry.1621677829" required>
+          <option value="">시간 선택</option>
+          <option>10:30</option>
+          <option>11:00</option>
+          <option>11:30</option>
+          <option>12:00</option>
+          <option>12:30</option>
+          <option>13:00</option>
+          <option>13:30</option>
+          <option>14:00</option>
+          <option>14:30</option>
+          <option>15:00</option>
+          <option>15:30</option>
+          <option>16:00</option>
+          <option>16:30</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="school_level">학교급</label>
+        <select id="school_level" name="entry.261454937" required>
+          <option value="">선택</option>
+          <option>초등학교</option>
+          <option>중학교</option>
+          <option>고등학교</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="grade">학생 학년</label>
+        <input type="text" id="grade" name="entry.156928591" required placeholder="예) 2학년" />
+      </div>
+
+      <div class="form-group">
+        <label for="interest">학생 관심분야</label>
+        <input type="text" id="interest" name="entry.763983283" placeholder="예) AI, 게임, 로봇 등" />
+      </div>
+
+      <!-- 스팸 방지용 허니팟 -->
+      <input type="text" name="entry.999999999" tabindex="-1" autocomplete="off" style="display:none" />
+
+      <button type="submit">예약하기</button>
+    </form>
+
+    <div id="message" aria-live="polite">✅ 예약이 완료되었습니다! 담당자가 확인 후 연락드립니다.</div>
+    <div class="fine-print">※ 동일 시간 중복 예약은 자동으로 거절됩니다.</div>
+  </div>
 </body>
 </html>
