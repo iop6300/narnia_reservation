@@ -277,7 +277,7 @@ h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
 
           <button class="submit" type="submit">예약 제출</button>
           <div id="ok" class="success">✅ 예약이 완료되었습니다!</div>
-          <div class="note">※ 동일 시간은 최대 10명까지 접수됩니다.</div>
+          <div class="note">※ 동일 시간은 최대 5명까지 접수됩니다.</div>
         </form>
       </div>
     </div>
@@ -397,7 +397,7 @@ h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
   <script>
     /* 👉 이 URL만 본인 것으로 교체하세요! (raw CSV) */
     const CSV_URL = "PUT_YOUR_PUBLIC_CSV_URL_HERE"; // 예: https://raw.githubusercontent.com/<user>/<repo>/main/booth-count.csv
-    const MAX_PEOPLE = 10;
+    const MAX_PEOPLE = 5;
 
     function normalize(s){ return String(s||'').replace(/^\uFEFF/,'').replace(/\u00A0/g,' ').trim(); }
 
