@@ -348,6 +348,7 @@ h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
   <!-- Particles (가벼운 캔버스 배경) -->
   <script>
     const canvas = document.getElementById('particles');
+    // ... (기존 particles.js 코드) ...
     const ctx = canvas.getContext('2d');
     let W,H, points=[];
 
@@ -393,6 +394,77 @@ h2{margin:0 0 12px;font-size:clamp(22px,3vw,28px);color:#fff}
     step();
   </script>
 
+  <script>
+    /* 👉 이 URL만 본인 것으로 교체하세요! (raw CSV) */
+    const CSV_URL = "PUT_YOUR_PUBLIC_CSV_URL_HERE"; // 예: https://raw.githubusercontent.com/<user>/<repo>/main/booth-count.csv
+    const MAX_PEOPLE = 4; // ✅ 예약 시간별 최대 한도: 4명
+
+    function normalize(s){ return String(s||'').replace(/^\uFEFF/,'').replace(/\u00A0/g,' ').trim(); }
+
+    async function fetchCSV(url){
+      const res = await fetch(url + (url.includes('?')?'&':'?') + '_ts=' + Date.now(), {redirect:'follow'});
+      if(!res.ok) throw new Error(res.status + ' ' + res.statusText);
+      return await res.text();
+    }
+    function parseCSV(text){
+      const lines = text.replace(/^\uFEFF/,'').trim().split(/\r?\n/);
+      return lines.map(line => line.split(',').map(v=>normalize(v)));
+    }
+
+    function applyCounts(map){
+      const sel = document.getElementById('slot');
+      if(!sel) return;
+      
+      [...sel.options].forEach(opt=>{
+        if(!opt.value) return;
+        
+        const key = normalize(opt.value.replace(/\s*\(.*\)$/,'')); // (잔여 x명) 부분 제거
+        const cnt = Number(map.get(key)||0);
+        const remaining = MAX_PEOPLE - cnt;
+
+        // 텍스트 업데이트 (잔여 인원 표시)
+        let newText = key;
+        if(remaining > 0){
+          newText += ` (잔여 ${remaining}명)`;
+          opt.disabled = false;
+        } else {
+          newText += ' (마감)';
+          opt.disabled = true; // 마감 처리
+        }
+        
+        opt.textContent = newText;
+      });
+
+      // 현재 선택된 옵션이 마감되었으면 선택 해제
+      if(sel.selectedOptions[0]?.disabled) sel.value="";
+    }
+
+    async function refreshCloseSlots(){
+      try{
+        const csv = await fetchCSV(CSV_URL);
+        const rows = parseCSV(csv);
+        if(!rows.length) return;
+        
+        const header = rows[0].map(normalize);
+        const timeIdx = header.findIndex(h=>/예약\s*시간|시간|slot/i.test(h));
+        const cntIdx  = header.findIndex(h=>/인원|인원수|count/i.test(h));
+        
+        const map = new Map();
+        rows.slice(1).forEach(r=>{
+          const t = normalize(r[timeIdx]);
+          const c = Number(normalize(r[cntIdx]))||0;
+          if(t) map.set(t,c);
+        });
+        
+        applyCounts(map);
+      }catch(e){ console.error('[마감] CSV 로드 오류', e); }
+    }
+    
+    refreshCloseSlots();
+    setInterval(refreshCloseSlots, 60*1000);
+  </script>
+</body>
+</html>
   <!-- 집계 CSV를 불러와 인원수 >=10 시간대 (마감) 처리 -->
   <script>
     /* 👉 이 URL만 본인 것으로 교체하세요! (raw CSV) */
